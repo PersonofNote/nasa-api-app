@@ -18,7 +18,7 @@ export function PictureCard({
     <Link
       href={`/pictures/${image.date}`}
       onClick={onVisit}
-      className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow block"
+      className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow block"
     >
       {image.media_type === 'image' ? (
         <Image
@@ -49,7 +49,7 @@ export function PictureCard({
         >
           {image.title}
         </h2>
-        <p className="text-sm text-gray-600">{image.date}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{image.date}</p>
       </div>
     </Link>
   );
