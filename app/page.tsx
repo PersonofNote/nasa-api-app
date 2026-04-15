@@ -2,10 +2,7 @@ import { getRecentAPODs, APOD } from './lib/apod';
 import { PictureGrid } from './PictureGrid';
 
 export default async function Home() {
-  const end_date = new Date();
-  const start_date = new Date();
-  start_date.setDate(start_date.getDate() - 9);
-
+  
   let images: APOD[] = [];
   let error: string | null = null;
 
