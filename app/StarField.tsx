@@ -1,16 +1,19 @@
 // Adapted from https://codepen.io/sarazond/pen/LYGbwj
 import styles from './StarField.module.css'
 
+const FIELD_WIDTH = 4000
+const FIELD_HEIGHT = 2000
+
 function generateStars(n: number) {
   return Array.from({ length: n }, () =>
-    `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px #FFF`
+    `${Math.floor(Math.random() * FIELD_WIDTH)}px ${Math.floor(Math.random() * FIELD_HEIGHT)}px #FFF`
   ).join(', ')
 }
 
 export default function StarField() {
-  const small = generateStars(700)
-  const medium = generateStars(200)
-  const big = generateStars(100)
+  const small = generateStars(1400)
+  const medium = generateStars(400)
+  const big = generateStars(200)
 
   return (
     <>

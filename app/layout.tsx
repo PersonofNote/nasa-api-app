@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import StarField from "./StarField";
+import StarFieldGate from "./StarFieldGate";
 import { ThemeToggle } from "./ThemeToggle";
 
 const themeInitScript = `
@@ -46,11 +46,13 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
         </Script>
-        <StarField />
-        <header className="container mx-auto p-4 flex justify-end">
-          <ThemeToggle />
-        </header>
-        {children}
+        <StarFieldGate />
+        <div className="relative z-10 flex flex-col min-h-full">
+          <header className="container mx-auto p-4 flex justify-end">
+            <ThemeToggle />
+          </header>
+          {children}
+        </div>
       </body>
     </html>
   );

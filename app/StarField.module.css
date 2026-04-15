@@ -4,6 +4,8 @@
   top: 0;
   left: 0;
   background: transparent;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .stars {
@@ -54,4 +56,12 @@
 @keyframes animStar {
   from { transform: translateY(0px); }
   to   { transform: translateY(-2000px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .stars2,
+  .stars3 {
+    animation: none;
+  }
 }
