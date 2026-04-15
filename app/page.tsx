@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { getAPODByDate, APOD } from './lib/apod';
+import Link from "next/link";
+import { getRecentAPODs, APOD } from './lib/apod';
 
 export default async function Home() {
   const end_date = new Date();
@@ -10,10 +11,7 @@ export default async function Home() {
   let error: string | null = null;
 
   try {
-    images = await getAPODByDate({
-      start_date: start_date.toLocaleDateString('en-CA'),
-      end_date: end_date.toLocaleDateString('en-CA'),
-    });
+    images = await getRecentAPODs();
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load images';
   }
@@ -23,8 +21,12 @@ export default async function Home() {
       <h1 className="text-3xl font-bold mb-4">Pictures</h1>
       {error && <p className="text-red-500">{error}</p>}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                      {images.length  && images?.map((image: any) => (
-          <div key={image.url} className="border rounded-lg overflow-hidden">
+        {images.map((image) => (
+          <Link
+            key={image.date}
+            href={`/pictures/${image.date}`}
+            className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+          >
             <Image
               src={image.url}
               alt={image.title}
@@ -36,7 +38,7 @@ export default async function Home() {
               <h2 className="text-lg font-semibold">{image.title}</h2>
               <p className="text-sm text-gray-600">{image.date}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div >
    

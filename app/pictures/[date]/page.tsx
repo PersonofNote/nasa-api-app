@@ -1,0 +1,60 @@
+import { Suspense } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { getAPOD } from '../../lib/apod';
+
+export default function PictureDetailPage({
+  params,
+}: PageProps<'/pictures/[date]'>) {
+  return (
+    <div className="container mx-auto p-4">
+      <Link href="/" className="text-blue-600 hover:underline">
+        ← Back
+      </Link>
+      <Suspense fallback={<p className="mt-4">Loading…</p>}>
+        {params.then(({ date }) => (
+          <Detail date={date} />
+        ))}
+      </Suspense>
+    </div>
+  );
+}
+
+async function Detail({ date }: { date: string }) {
+  let apod;
+  try {
+    apod = await getAPOD(date);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : 'Failed to load image';
+    return <p className="text-red-500 mt-4">{message}</p>;
+  }
+
+  return (
+    <article className="mt-4 max-w-3xl">
+      <h1 className="text-3xl font-bold mb-2">{apod.title}</h1>
+      <p className="text-sm text-gray-600 mb-4">{apod.date}</p>
+      {apod.media_type === 'image' ? (
+        <Image
+          src={apod.hdurl ?? apod.url}
+          alt={apod.title}
+          width={1200}
+          height={800}
+          className="w-full h-auto rounded-lg"
+        />
+      ) : (
+        <div className="aspect-video">
+          <iframe
+            src={apod.url}
+            title={apod.title}
+            allowFullScreen
+            className="w-full h-full rounded-lg"
+          />
+        </div>
+      )}
+      {apod.copyright && (
+        <p className="text-sm text-gray-600 mt-2">© {apod.copyright}</p>
+      )}
+      <p className="mt-4 leading-relaxed">{apod.explanation}</p>
+    </article>
+  );
+}
