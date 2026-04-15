@@ -1,23 +1,13 @@
-import { getRecentAPODs, APOD } from './lib/apod';
+import { getRecentAPODs } from './lib/apod';
 import { PictureGrid } from './PictureGrid';
 
 export default async function Home() {
-  
-  let images: APOD[] = [];
-  let error: string | null = null;
-
-  try {
-    images = await getRecentAPODs();
-  } catch (e) {
-    error = e instanceof Error ? e.message : 'Failed to load images';
-  }
+  const images = await getRecentAPODs();
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Recent NASA Astronomy Pictures of the Day</h1>
-      {error && <p className="text-red-500">{error}</p>}
       <PictureGrid images={images} />
-   
     </div>
   );
 }

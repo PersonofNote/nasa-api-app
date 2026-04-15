@@ -41,13 +41,7 @@ function DetailSkeleton() {
 }
 
 async function Detail({ date }: { date: string }) {
-  let apod;
-  try {
-    apod = await getAPOD(date);
-  } catch (e) {
-    const message = e instanceof Error ? e.message : 'Failed to load image';
-    return <p className="text-red-500 mt-4">{message}</p>;
-  }
+  const apod = await getAPOD(date);
 
   return (
     <article className="mt-4 max-w-3xl">
