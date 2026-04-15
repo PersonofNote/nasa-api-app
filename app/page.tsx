@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
 import { getRecentAPODs, APOD } from './lib/apod';
+import { PictureGrid } from './PictureGrid';
 
 export default async function Home() {
   const end_date = new Date();
@@ -20,27 +19,7 @@ export default async function Home() {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Pictures</h1>
       {error && <p className="text-red-500">{error}</p>}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {images.map((image) => (
-          <Link
-            key={image.date}
-            href={`/pictures/${image.date}`}
-            className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-          >
-            <Image
-              src={image.url}
-              alt={image.title}
-              width={400}
-              height={300}
-              className="object-cover w-full h-48"
-            />
-            <div className="p-4">
-              <h2 className="text-lg font-semibold">{image.title}</h2>
-              <p className="text-sm text-gray-600">{image.date}</p>
-            </div>
-          </Link>
-        ))}
-      </div >
+      <PictureGrid images={images} />
    
     </div>
   );
