@@ -17,7 +17,7 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Pictures</h1>
+      <h1 className="text-3xl font-bold mb-4">Recent NASA Astronomy Pictures of the Day</h1>
       {error && <p className="text-red-500">{error}</p>}
       <PictureGrid images={images} />
    
