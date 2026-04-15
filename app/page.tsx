@@ -1,16 +1,29 @@
 import Image from "next/image";
+import { getAPODByDate, APOD } from './lib/apod';
 
-export default async function Home({ props }: { props: any }) {
- const data = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}&count=9`, { next: { revalidate: 86400 } });
- const images = await data.json();
+export default async function Home() {
+  const end_date = new Date();
+  const start_date = new Date();
+  start_date.setDate(start_date.getDate() - 9);
+
+  let images: APOD[] = [];
+  let error: string | null = null;
+
+  try {
+    images = await getAPODByDate({
+      start_date: start_date.toLocaleDateString('en-CA'),
+      end_date: end_date.toLocaleDateString('en-CA'),
+    });
+  } catch (e) {
+    error = e instanceof Error ? e.message : 'Failed to load images';
+  }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">NASA Astronomy Picture of the Day</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {images.error && <p className="text-red-500">{images.error.message}</p>}
-      </div>
-           {images.length  && images?.map((image: any) => (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Pictures</h1>
+      {error && <p className="text-red-500">{error}</p>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      {images.length  && images?.map((image: any) => (
           <div key={image.url} className="border rounded-lg overflow-hidden">
             <Image
               src={image.url}
@@ -25,6 +38,8 @@ export default async function Home({ props }: { props: any }) {
             </div>
           </div>
         ))}
+      </div >
+   
     </div>
   );
 }
