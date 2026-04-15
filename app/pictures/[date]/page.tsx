@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { getAPOD } from '../../lib/apod';
 import { isMp4Url } from '../../lib/media';
+import { PLACEHOLDER_BLUR } from '../../lib/placeholder';
 
 export default function PictureDetailPage({
   params,
@@ -51,9 +51,11 @@ async function Detail({ date }: { date: string }) {
         <Image
           src={apod.hdurl ?? apod.url}
           alt={apod.title}
-          width={1200}
-          height={800}
+          width={800}
+          height={600}
           className="w-full h-auto rounded-lg"
+          placeholder="blur"
+          blurDataURL={PLACEHOLDER_BLUR}
         />
       ) : isMp4Url(apod.url) ? (
         <video

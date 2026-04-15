@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { APOD } from './lib/apod';
 import { isMp4Url } from './lib/media';
+import { PLACEHOLDER_BLUR } from './lib/placeholder';
 
 export function PictureCard({
   image,
@@ -27,6 +28,8 @@ export function PictureCard({
           width={400}
           height={300}
           className="object-cover w-full h-48"
+          placeholder="blur"
+          blurDataURL={PLACEHOLDER_BLUR}
         />
       ) : isMp4Url(image.url) ? (
         <video
